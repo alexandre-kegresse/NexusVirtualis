@@ -38,7 +38,7 @@ La distinction principale réside dans leur emplacement par rapport au matériel
 ## 2. Création de la VM Invité (Debian)
 Nous avons créé une machine virtuelle Debian au sein de l'hyperviseur Hyper-V.
 
-* **Système :** Debian 12 (Bookworm).
+* **Système :** Debian 13.
 * **Spécifications (respect des contraintes) :**
     * CPU : 2 vCPU.
     * RAM : 1 Go (1024 Mo).
@@ -68,4 +68,28 @@ Création d'une machine virtuelle Debian hébergée sur l'infrastructure ESXi.
 * **Méthode d'installation :** Upload de l'ISO dans le Datastore ESXi et montage sur le lecteur virtuel.
 
 <img width="1920" height="1020" alt="Capture d&#39;écran 2026-01-19 155432" src="https://github.com/user-attachments/assets/a694f1d3-fec1-487c-9ce4-6d1bea2a4e8e" />
+
+# Job 06 : Proxmox VE
+
+## 1. Installation de l'Hyperviseur
+Proxmox VE est une solution open-source basée sur Debian, combinant virtualisation KVM et conteneurs LXC.
+
+* **Version :** Proxmox VE 9.1.1
+* **Ressources allouées :** 2 vCPU, 4 Go RAM.
+* **Administration :** Via interface web sur le port 8006.
+
+## 2. Création de la VM Invité (Debian)
+Déploiement d'une VM Debian via l'interface web de Proxmox.
+
+* **Configuration :**
+    * CPU : 2 Cores (Type KVM64 ou Host).
+    * RAM : 1024 MiB.
+    * Disque : 8 GiB (Stockage local LVM ou Directory).
+    * OS : Debian 13 (Netinstall).
+* **Particularité :** Upload de l'ISO dans le stockage "local" avant création.
+  
+<img width="1920" height="1020" alt="Capture d&#39;écran 2026-01-19 163239" src="https://github.com/user-attachments/assets/07134fef-26e9-4823-b1ee-afd9db20fbad" />
+
+<img width="1920" height="1080" alt="Capture d&#39;écran 2026-01-19 163127" src="https://github.com/user-attachments/assets/3e07a5fa-dc41-4081-bbc5-120363d95fed" />
+
 
