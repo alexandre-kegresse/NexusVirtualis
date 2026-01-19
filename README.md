@@ -45,5 +45,27 @@ Nous avons créé une machine virtuelle Debian au sein de l'hyperviseur Hyper-V.
     * Disque : 8 Go.
     * Interface : CLI (Command Line Interface - Sans GUI).
 * **Réseau :** Connecté au vSwitch par défaut (Accès Internet via NAT).
+  
   <img width="1920" height="1020" alt="Capture d&#39;écran 2026-01-19 145623" src="https://github.com/user-attachments/assets/79a8c9ea-0ae0-4938-93bb-817ef2156ee0" />
+
+# Job 05 : VMware ESXi
+
+## 1. Installation de l'Hyperviseur
+Nous avons déployé VMware ESXi (Type 1) en virtualisation imbriquée.
+
+* **Version :** VMware ESXi 6.7.0
+* **Ressources allouées à l'ESXi :** 2 vCPU, 4 Go RAM.
+* **Administration :** Via l'interface web (ESXi Host Client).
+
+## 2. Création de la VM Invité (Debian)
+Création d'une machine virtuelle Debian hébergée sur l'infrastructure ESXi.
+
+* **Configuration (Conforme aux spécifications) :**
+    * CPU : 2 vCPU.
+    * RAM : 1024 MB.
+    * Disque : 8 Go (Thin Provisioning).
+    * OS : Debian (Mode texte / Server only).
+* **Méthode d'installation :** Upload de l'ISO dans le Datastore ESXi et montage sur le lecteur virtuel.
+
+<img width="1920" height="1020" alt="Capture d&#39;écran 2026-01-19 155432" src="https://github.com/user-attachments/assets/a694f1d3-fec1-487c-9ce4-6d1bea2a4e8e" />
 
