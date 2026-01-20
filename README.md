@@ -108,3 +108,18 @@ XCP-ng est une distribution de virtualisation basée sur Xen Server (Type 1).
     * Réseau : Ponté sur l'interface de gestion (eth0).
 
 <img width="1920" height="1020" alt="Capture d&#39;écran 2026-01-20 115744" src="https://github.com/user-attachments/assets/98515367-54a7-4143-96ee-282b2a2be46b" />
+
+# Job 08 : Migration de VMs (Téléportation)
+
+L'objectif est de migrer une machine virtuelle à travers différents hyperviseurs selon le chemin :
+**Hyper-V -> ESXi -> Proxmox -> XCP-ng**.
+
+## Étape 1 : Hyper-V vers ESXi
+Nous avons utilisé l'outil **StarWind V2V Converter** pour convertir le disque à chaud.
+
+* **Source :** Hyper-V (Format .vhdx)
+* **Destination :** ESXi Server (Injection directe dans le Datastore).
+* **Format de conversion :** VMDK (ESXi Growable Image).
+* **Résultat :** La VM "Debian_Migrated" a démarré avec succès sur ESXi.
+  
+<img width="1920" height="1080" alt="Capture d&#39;écran 2026-01-20 135358" src="https://github.com/user-attachments/assets/7694881e-b0f3-4521-82d5-33ac7eedcbb7" />
