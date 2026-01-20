@@ -92,4 +92,19 @@ Déploiement d'une VM Debian via l'interface web de Proxmox.
 
 <img width="1920" height="1080" alt="Capture d&#39;écran 2026-01-19 163127" src="https://github.com/user-attachments/assets/3e07a5fa-dc41-4081-bbc5-120363d95fed" />
 
+# Job 07 : XCP-ng
 
+## 1. Installation de l'Hyperviseur
+XCP-ng est une distribution de virtualisation basée sur Xen Server (Type 1).
+
+* **Version :** XCP-ng 8.2 (LTS) ou 8.3
+* **Ressources :** 2 vCPU, 4 Go RAM.
+* **Gestion :** Via le client lourd Windows "XCP-ng Center" (pour éviter le déploiement de Xen Orchestra en nested).
+
+## 2. Création de la VM Invité (Debian)
+* **Configuration :**
+    * Template : Debian 10/11/12.
+    * Ressources : 2 vCPU, 1 Gio RAM, 8 Go Disque.
+    * Réseau : Ponté sur l'interface de gestion (eth0).
+
+<img width="1920" height="1020" alt="Capture d&#39;écran 2026-01-20 115744" src="https://github.com/user-attachments/assets/98515367-54a7-4143-96ee-282b2a2be46b" />
