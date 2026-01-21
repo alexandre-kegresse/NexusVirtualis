@@ -123,3 +123,13 @@ Nous avons utilisé l'outil **StarWind V2V Converter** pour convertir le disque 
 * **Résultat :** La VM "Debian_Migrated" a démarré avec succès sur ESXi.
   
 <img width="1920" height="1080" alt="Capture d&#39;écran 2026-01-20 135358" src="https://github.com/user-attachments/assets/7694881e-b0f3-4521-82d5-33ac7eedcbb7" />
+
+## Étape 2 : ESXi vers Proxmox
+
+Nous avons utilisé une méthode de transfert par flux SSH (commande `dd`) ainsi que l'assistant d'importation natif pour contourner les limitations de stockage.
+* **Source :** ESXi Server (Format .vmdk - Flat Image).
+* **Destination :** Proxmox VE (Stockage local sur partition root étendue).
+* **Format de conversion :** RAW (Image disque brute).
+* **Résultat :** La VM "101 (Debian-Migrated)" a démarré en mode UEFI (Secure Boot désactivé) après extension manuelle du volume LVM.
+
+<img width="1920" height="1020" alt="image" src="https://github.com/user-attachments/assets/ca0b2ba8-a72d-468c-9e55-681b05419b3c" />
