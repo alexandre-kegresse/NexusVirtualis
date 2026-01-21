@@ -126,7 +126,7 @@ Nous avons utilisé l'outil **StarWind V2V Converter** pour convertir le disque 
 
 ## Étape 2 : ESXi vers Proxmox
 
-Nous avons utilisé une méthode de transfert par flux SSH (commande `dd`) ainsi que l'assistant d'importation natif pour contourner les limitations de stockage.
+Nous avons validé la migration par deux méthodes (flux SSH via `dd` et l'assistant d'importation natif de Proxmox) après avoir dû étendre manuellement la partition système de l'hôte, le stockage de données par défaut (7 Go) étant physiquement plus petit que le disque source (8,6 Go).
 * **Source :** ESXi Server (Format .vmdk - Flat Image).
 * **Destination :** Proxmox VE (Stockage local sur partition root étendue).
 * **Format de conversion :** RAW (Image disque brute).
