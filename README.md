@@ -133,3 +133,26 @@ Nous avons validé la migration par deux méthodes (flux SSH via `dd` et l'assis
 * **Résultat :** La VM "101 (Debian-Migrated)" a démarré en mode UEFI (Secure Boot désactivé) après extension manuelle du volume LVM.
 
 <img width="1920" height="1020" alt="image" src="https://github.com/user-attachments/assets/ca0b2ba8-a72d-468c-9e55-681b05419b3c" />
+
+## Étape 3 : Proxmox VE vers XCP-ng (Analyse des limites et contraintes)
+
+Cette étape finale visait à migrer la VM Debian de Proxmox vers XCP-ng via un transfert de flux (streaming) ou une conversion de disque. En raison de contraintes matérielles liées à l'environnement de laboratoire "Nested", cette étape n'a pas pu être finalisée. Voici l'analyse technique des blocages rencontrés.
+
+### ❌ Problématiques de stockage (Storage Exhaustion)
+
+* **Saturation sur l'hôte Proxmox** : La partition racine (`/`) ne disposait que de 4,2 Go d'espace libre sur 17,98 Go au total.
+* **Impossibilité de conversion locale** : Le disque source de la VM pesant 8,6 Go, la création d'un clone au format VHD a systématiquement échoué par manque d'espace disque (Erreur : `No space left on device`).
+* **Saturation sur l'hôte XCP-ng** : Le stockage local de destination s'est retrouvé saturé avec seulement 336 Mo de disponible.
+* **Erreurs d'importation** : Les tentatives de transfert direct via tunnel SSH ont généré des erreurs de type `VDI_IO_ERROR` dues à l'impossibilité pour l'hôte de destination d'écrire les données sur un support physique plein.
+
+### ⚙️ Complexité de l'architecture de démarrage (UEFI)
+
+* **Multi-Hyperviseurs** : La VM ayant transité par Hyper-V, ESXi puis Proxmox, la persistance de la table de partition GPT et du mode de démarrage UEFI a nécessité des reconfigurations constantes des firmwares virtuels.
+* **Contraintes Nested** : L'utilisation d'hyperviseurs imbriqués a limité les performances d'E/S (Entrées/Sorties), rendant les flux de données instables lors des transferts de gros volumes de données.
+
+### 💡 Bilan technique
+
+Bien que la VM n'ait pas pu être démarrée sur XCP-ng, les manipulations effectuées ont permis de valider des compétences critiques :
+1.  **Gestion avancée de LVM** : Désactivation du Swap et extension de partitions logiques en ligne de commande pour tenter de libérer de l'espace système.
+2.  **Manipulation de flux SSH** : Utilisation de `qemu-img` et `dd` pour tenter de contourner les limitations de stockage par l'utilisation de "pipes" (tuyaux) de données.
+3.  **Diagnostic d'infrastructure** : Identification précise des limites du *Capacity Planning* nécessaires à la réussite d'un projet de migration multi-cloud.
