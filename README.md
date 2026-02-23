@@ -156,3 +156,38 @@ Bien que la VM n'ait pas pu être démarrée sur XCP-ng, les manipulations effec
 1.  **Gestion avancée de LVM** : Désactivation du Swap et extension de partitions logiques en ligne de commande pour tenter de libérer de l'espace système.
 2.  **Manipulation de flux SSH** : Utilisation de `qemu-img` et `dd` pour tenter de contourner les limitations de stockage par l'utilisation de "pipes" (tuyaux) de données.
 3.  **Diagnostic d'infrastructure** : Identification précise des limites du *Capacity Planning* nécessaires à la réussite d'un projet de migration multi-cloud.
+
+## Job 09 : Mise en œuvre de Proxmox Backup Server (PBS)
+
+[cite_start]Afin de sécuriser l'infrastructure virtualisée sous Proxmox VE [cite: 49][cite_start], nous avons déployé et configuré une solution de sauvegarde centralisée avec **Proxmox Backup Server**[cite: 50].
+
+### 🛠️ Configuration de la solution
+1. **Installation** : Déploiement de PBS (soit en bare-metal, soit en VM dédiée) et ajout du stockage de sauvegarde dans le cluster Proxmox VE.
+2. [cite_start]**Planification des sauvegardes** : Configuration d'un "Backup Job" pour la VM Debian avec une fréquence de **toutes les 2 heures**.
+   * *Paramètre Cron* : `0 */2 * * *`
+3. [cite_start]**Politique de rétention (Pruning)** : Mise en place d'une règle de nettoyage automatique pour ne conserver que les **3 dernières sauvegardes**.
+   * *Paramètre de rétention* : `keep-last=3`
+
+### ✅ Avantages constatés
+* **Déduplication à la source** : Réduction massive de l'espace disque utilisé, les sauvegardes étant incrémentales après le premier passage.
+* **Vérification d'intégrité** : Possibilité de planifier des vérifications automatiques des données sauvegardées.
+
+---
+
+## Job 10 : Documentation sur les solutions de sauvegarde de VMs
+
+[cite_start]Dans le cadre de cette mission, nous avons étudié les différentes solutions professionnelles permettant la protection des environnements virtualisés[cite: 54].
+
+### 📊 Comparatif des solutions majeures
+
+| Solution | Hyperviseurs supportés | Points forts |
+| :--- | :--- | :--- |
+| **Proxmox Backup Server** | Proxmox VE | [cite_start]Intégration native, déduplication ultra-performante, Open Source[cite: 73]. |
+| **Veeam Backup & Replication** | ESXi, Hyper-V | [cite_start]Standard du marché, restauration granulaire (fichiers/SQL), support multi-cloud[cite: 70, 74]. |
+| **Xen Orchestra (XO)** | XCP-ng, XenServer | [cite_start]Sauvegardes Delta, réplication continue, interface Web intégrée[cite: 71]. |
+| **Nakivo Backup** | ESXi, Hyper-V, Proxmox | Solution légère, installation sur NAS (Synology/QNAP), coût attractif. |
+
+### 🛡️ Concepts clés de la sauvegarde virtuelle
+* **Snapshots vs Backups** : Un snapshot n'est pas une sauvegarde ; il dépend du disque source, contrairement au backup exporté sur un stockage tiers.
+* **3-2-1 Rule** : 3 copies des données, sur 2 supports différents, avec 1 copie hors-site (Offsite).
+* **RPO / RTO** : Définition de la perte de données maximale admissible (RPO) et du temps de rétablissement (RTO). [cite_start]Dans le Job 09, le RPO est fixé à 2 heures.
